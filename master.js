@@ -24,7 +24,7 @@ var server = http.createServer(function (req, res) {
 
 
     var app_port = config.appSettings.applications[req.headers.host].port;
-    proxy.web(req, res, { target: config.appSettings.server.protocol +  config.appSettings.server.ip +':' + app_port });
+    proxy.web(req, res, { target: config.appSettings.server.protocol + config.appSettings.server.ip + ':' + app_port });
 });
 
 console.log("listening on port 80");
@@ -34,7 +34,8 @@ server.listen(80);
 function forkApplication(app_config) {
     var child = cp.fork(app_config.main, [], {
         execArgv: ["--debug=" + debugger_port],
-        cwd: app_config.cwd
+        cwd: app_config.cwd,
+        env: { PORT: app_config.port }
     });
     child.on('close', function (code) {
         console.log('closing code: ' + code);
