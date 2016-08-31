@@ -1,0 +1,5 @@
+*.ts
+typings
+config
+data
+node_modules
